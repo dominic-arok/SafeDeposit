@@ -14,9 +14,19 @@ mongoose.connect(process.env.DATABASE_URL)
 
 app.set("view engine", "ejs")
 
-app.get("/", (req, res) => {
-    res.render("index")
-})
+app.get("/", async (req, res) => {
+    const fileId = req.query.fileId;
+  
+    if (!fileId) {
+      return res.render("index");
+    }
+  
+    const file = await File.findById(fileId);
+    if (!file) return res.render("index");
+  
+    const fileLink = `${req.protocol}://${req.get("host")}/file/${file.id}`;
+    res.render("index", { fileLink });
+  });
 
 app.post("/upload", upload.single("file"), async (req, res) => {
     const fileData = {
@@ -28,7 +38,7 @@ app.post("/upload", upload.single("file"), async (req, res) => {
     }
 
     const file = await File.create(fileData)
-    res.redirect(`/success/${file.id}`);
+    res.redirect(`/?fileId=${file.id}`);
 })
 
 app.get("/success/:id", async (req, res) => {
