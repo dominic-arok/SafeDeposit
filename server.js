@@ -29,17 +29,23 @@ app.get("/", async (req, res) => {
   });
 
 app.post("/upload", upload.single("file"), async (req, res) => {
+    if (!req.file) {
+        return res.status(400).send("No file uploaded");
+    }
+
     const fileData = {
         path: req.file.path,
         originalName: req.file.originalname,
-    }
-    if (req.body.password != null && req.body.password !== "") {
-        fileData.password = await bcrypt.hash(req.body.password, 10)
+    };
+
+    if (req.body.password && req.body.password !== "") {
+        const bcrypt = require("bcryptjs");
+        fileData.password = await bcrypt.hash(req.body.password, 10);
     }
 
-    const file = await File.create(fileData)
+    const file = await File.create(fileData);
     res.redirect(`/?fileId=${file.id}`);
-})
+});
 
 app.get("/success/:id", async (req, res) => {
     const file = await File.findById(req.params.id);
