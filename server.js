@@ -1,4 +1,16 @@
+const fs = require('fs');
+const path = require('path');
 require("dotenv").config()
+
+const uploadsDir = path.join(__dirname, 'uploads');
+
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+  console.log('Uploads folder created at', uploadsDir);
+} else {
+  console.log('Uploads folder exists at', uploadsDir);
+}
+
 const multer = require("multer")
 const mongoose = require("mongoose")
 const bcrypt = require("bcryptjs")
@@ -81,4 +93,4 @@ async function handleDownload(req, res) {
     res.download(file.path, file.originalName)
 }
 
-app.listen(process.env.PORT)
+app.listen(process.env.PORT || 3000);
