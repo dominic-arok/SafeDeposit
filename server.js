@@ -28,8 +28,16 @@ app.post("/upload", upload.single("file"), async (req, res) => {
     }
 
     const file = await File.create(fileData)
-    res.render("index", { fileLink: `${req.headers.origin}/file/${file.id}` })
+    res.redirect(`/success/${file.id}`);
 })
+
+app.get("/success/:id", async (req, res) => {
+    const file = await File.findById(req.params.id);
+    if (!file) return res.send("File not found.");
+  
+    const fileLink = `${req.protocol}://${req.get("host")}/file/${file.id}`;
+    res.render("index", { fileLink });
+  });
 
 app.route("/file/:id").get(handleDownload).post(handleDownload)
 
