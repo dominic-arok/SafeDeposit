@@ -22,8 +22,24 @@ app.use(express.urlencoded({ extended: true}))
 
 const upload = multer( { dest: "uploads" })
 
-mongoose.connect(process.env.DATABASE_URL)
+const dbUrl = process.env.DATABASE_URL;
 
+// Initialize options as an empty object.
+let mongooseOptions = {};
+
+// If using a remote MongoDB Atlas connection, set TLS options.
+if (dbUrl.startsWith("mongodb+srv://")) {
+  mongooseOptions = {
+    tls: true,
+    // Uncomment the next line ONLY if you need to bypass certificate validation for debugging:
+    // tlsAllowInvalidCertificates: true,
+  };
+}
+
+mongoose.connect(dbUrl, mongooseOptions)
+  .then(() => console.log("Database connected"))
+  .catch(err => console.error("Database connection error:", err));
+  
 app.set("view engine", "ejs")
 
 app.get("/", async (req, res) => {
