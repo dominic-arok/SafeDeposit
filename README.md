@@ -9,26 +9,15 @@ This project was built using Node.js, Express.js, and MongoDB. It is deployed on
 
 Installation and Setup
 
-1. Clone repository
+1. Clone repository - 'git clone'
 
-'git clone'
+2. Install dependencies - 'npm install'
 
-2. Install dependencies
+3. Set up environment variables - 'DATABASE_URL=<Your MongoDB Atlas connection string>' 'PORT=3000'
 
-'npm install'
+4. Run application - 'npm run devStart'
 
-3. Set up environment variables
-
-'DATABASE_URL=<Your MongoDB Atlas connection string>'
-'PORT=3000'
-
-4. Run application
-
-'npm run devStart'
-
-5. Visit link
-
-Visit http://localhost:3000
+5. Visit link - http://localhost:3000
 
 
 Usage
