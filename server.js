@@ -17,32 +17,35 @@ app.set("view engine", "ejs")
 app.get("/", async (req, res) => {
     const fileId = req.query.fileId;
   
-    if (!fileId) {
-      return res.render("index");
+    if (!fileId) return res.render("index");
+  
+    try {
+      const file = await File.findById(fileId);
+      if (!file) return res.render("index");
+  
+      const fileLink = `${req.protocol}://${req.get("host")}/file/${file.id}`;
+      res.render("index", { fileLink });
+    } catch (err) {
+      console.error(err);
+      res.render("index");
     }
-  
-    const file = await File.findById(fileId);
-    if (!file) return res.render("index");
-  
-    const fileLink = `${req.protocol}://${req.get("host")}/file/${file.id}`;
-    res.render("index", { fileLink });
   });
 
 app.post("/upload", upload.single("file"), async (req, res) => {
     if (!req.file) {
-        return res.status(400).send("No file uploaded");
+      return res.status(400).send("No file uploaded");
     }
-
+  
     const fileData = {
-        path: req.file.path,
-        originalName: req.file.originalname,
+      path: req.file.path,
+      originalName: req.file.originalname,
     };
-
+  
     if (req.body.password && req.body.password !== "") {
-        const bcrypt = require("bcryptjs");
-        fileData.password = await bcrypt.hash(req.body.password, 10);
+      const bcrypt = require("bcryptjs");
+      fileData.password = await bcrypt.hash(req.body.password, 10);
     }
-
+  
     const file = await File.create(fileData);
     res.redirect(`/?fileId=${file.id}`);
 });
