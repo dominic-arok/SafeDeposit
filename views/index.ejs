@@ -2,18 +2,112 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatabile" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,
     initial-scale-1.0">
     <title>Document</title>
+    <style>
+        * {
+          box-sizing: border-box;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+      
+        body {
+          background-color: #f9f9f9;
+          color: #333;
+          margin: 0;
+          padding: 2rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+      
+        h1 {
+          font-size: 2rem;
+          margin-bottom: 2rem;
+        }
+      
+        form {
+          background-color: white;
+          padding: 2rem;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          width: 100%;
+          max-width: 500px;
+          display: grid;
+          gap: 1rem;
+        }
+      
+        label {
+          font-weight: 600;
+        }
+      
+        input[type="file"],
+        input[type="password"] {
+          padding: 0.5rem;
+          border-radius: 6px;
+          border: 1px solid #ccc;
+          width: 100%;
+        }
+      
+        button {
+          padding: 0.75rem;
+          background-color: #3b82f6;
+          color: white;
+          font-weight: bold;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          grid-column: span 2;
+          transition: background-color 0.3s ease;
+        }
+      
+        button:hover {
+          background-color: #2563eb;
+        }
+      
+        .message {
+          background-color: #e0f7ec;
+          border-left: 4px solid #10b981;
+          padding: 1rem;
+          margin-bottom: 1rem;
+          width: 100%;
+          max-width: 500px;
+          border-radius: 6px;
+        }
+      
+        .error {
+          background-color: #fdecea;
+          border-left: 4px solid #ef4444;
+          color: #b91c1c;
+        }
+      
+        a {
+          color: #2563eb;
+          text-decoration: none;
+          word-break: break-all;
+        }
+      
+        a:hover {
+          text-decoration: underline;
+        }
+      </style>
 </head>
 <body>
+    <h1>Secure File Upload</h1>  
     <form action="/upload" method="post" style="display: grid; gap: .5rem; grid-template-columns: auto 1fr; max-width: 500px; margin: 0 auto;" enctype="multipart/form-data">
         <label for="file">File:</label>
         <input type="file" id="file" name="file" required />
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" />
-        <button style="grid-column: span 2;" type="submit">Share </button>
+        <button style="grid-column: span 2;" type="submit">Upload</button>
     </form>
+
+    <% if (locals.fileLink != null) { %>
+        <div style="margin-top: 1rem; text-align: center;">
+            <p style="margin-bottom: 0.75rem;">Succesfully Uploaded</p>
+            <br><a href="<%= locals.fileLink %>"><%= locals.fileLink %></a>
+        </div>
+    <% } %>  
 </body>
 </html>
