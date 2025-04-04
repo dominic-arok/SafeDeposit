@@ -35,16 +35,16 @@ Usage
 
 Upload A File:
     
-Visit the link
-Select a file to upload
-Set a password for secure downloads or leave blank for no password
-Click “Upload” 
-You will receive a unique shareable link
+1. Visit the link
+2. Select a file to upload
+3. Set a password for secure downloads or leave blank for no password
+4. Click “Upload” 
+5. You will receive a unique shareable link
 
 Download A File:
 
-Click on the shared link
-Enter the correct password to initiate file download
+1. Click on the shared link
+2. Enter the correct password to initiate file download
 
 
 Credit
